@@ -4,7 +4,6 @@ inputs:
   config:
     description: ''
     required: true
-    default: ${{ secrets.ss_config }}
 runs:
   using: "composite"
   steps:
