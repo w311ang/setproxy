@@ -32,3 +32,4 @@ runs:
         sudo sed -i 's/#quiet_mode/quiet_mode/g' /etc/proxychains4.conf
         proxychains curl --connect-timeout 5 https://www.google.com || true
         proxychains curl --connect-timeout 5 https://www.google.com || true
+        systemctl status --no-pager shadowsocks
