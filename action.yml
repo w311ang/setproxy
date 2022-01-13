@@ -30,6 +30,6 @@ runs:
         systemctl status --no-pager shadowsocks
         sudo sed -i 's/socks4 	127.0.0.1 9050/socks5 127.0.0.1 1080/g' /etc/proxychains4.conf
         sudo sed -i 's/#quiet_mode/quiet_mode/g' /etc/proxychains4.conf
-        proxychains curl -I -s --connect-timeout 5 https://example.com || true
-        proxychains curl -I -s --connect-timeout 5 https://example.com || true
+        proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
+        proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
         systemctl status --no-pager shadowsocks
