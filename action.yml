@@ -32,5 +32,5 @@ runs:
         sudo sed -i 's/#quiet_mode/quiet_mode/g' /etc/proxychains4.conf
         proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
         proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error, restart ss; sudo systemctl restart shadowsocks; sleep 5s
-        proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
         systemctl status --no-pager shadowsocks
+        proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
