@@ -36,4 +36,4 @@ runs:
         proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error, restart ss; sudo systemctl restart shadowsocks; sleep 5s
         systemctl status --no-pager shadowsocks
         proxychains curl -I -s --connect-timeout 5 https://example.com || echo connect error
-        sudo sed -i "s/nameserver .*/$defaultdns/" /etc/resolv.conf
+        #sudo sed -i "s/nameserver .*/$defaultdns/" /etc/resolv.conf
