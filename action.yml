@@ -13,10 +13,8 @@ runs:
         config: ${{ inputs.config }}
       run: |
         sudo apt-get install shadowsocks-libev simple-obfs proxychains-ng
-        sudo -E sh -c 'echo $config|base64 -d > /etc/shadowsocks-libev/config.json'
-        sudo sed -i "s/ss-server/ss-client/g" /etc/systemd/system/multi-user.target.wants/shadowsocks-libev.service
-        sudo systemctl daemon-reload
-        sudo systemctl restart shadowsocks-libev
+        sudo -E sh -c 'echo $config|base64 -d > /etc/shadowsocks-libev/client.json'
+        sudo systemctl start shadowsocks-libev-local@client
         sleep 5s
 
         sudo sed -i 's/socks4 	127.0.0.1 9050/socks5 127.0.0.1 1080/g' /etc/proxychains4.conf
