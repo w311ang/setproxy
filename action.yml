@@ -32,14 +32,14 @@ runs:
         retry_wait_seconds: 60
         on_retry_command: sudo systemctl restart shadowsocks-libev
         command: |
+          systemctl status --no-pager shadowsocks-libev
           for i in {1..2}
           do
-            (proxychains curl -I -s --connect-timeout 5 https://example.com; break) || (\
+            proxychains curl -I -s --connect-timeout 5 https://example.com || (\
             echo connect error; \
-            systemctl status --no-pager shadowsocks-libev; \
             sleep 5s)
           done
+          systemctl status --no-pager shadowsocks-libev
           proxychains curl -I -s --connect-timeout 5 https://example.com || (\
           echo connect error; \
-          systemctl status --no-pager shadowsocks-libev; \
           exit 1)
