@@ -4,6 +4,9 @@ inputs:
   config:
     description: ''
     required: true
+  host:
+    description: ''
+    required: false
   password:
     description: ''
     required: false
@@ -21,6 +24,7 @@ runs:
       shell: python
       env:
         config: ${{ inputs.config }}
+        host: ${{ inputs.host }}
         password: ${{ inputs.password }}
       run: |
         import json
@@ -28,9 +32,15 @@ runs:
         from pytools.pytools import base64decode
         import os
 
+        password=os.environ['password']
+        host=os.environ['host']
         config=json.loads(base64decode(os.environ['config']))
-        url=config['server']+':'+str(config['server_port'])
-        pas(url,os.environ['password'])
+        
+        if not host:
+          url=config['server']+':'+str(config['server_port'])
+        else:
+          url=host
+        pas(url,password)
     - name: Install
       shell: bash
       env:
