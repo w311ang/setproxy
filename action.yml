@@ -4,9 +4,22 @@ inputs:
   config:
     description: ''
     required: true
+  password:
+    description: ''
+    required: false
 runs:
   using: "composite"
   steps:
+    - name: Auth
+      shell: bash
+      if: inputs.password != ''
+      env:
+        config: ${{ inputs.config }}
+        password: ${{ inputs.password }}
+      run: |
+        sudo apt-get install python
+        pip install --upgrade git+https://github.com/w311ang/pytools.git@package
+        python -u auth.py
     - name: Install
       shell: bash
       env:
