@@ -5,5 +5,5 @@ import os
 
 
 config=json.loads(base64decode(os.environ['config']))
-url=config['server']+':'+config['port']
+url=config['server']+':'+config['server_port']
 pas(url,os.environ['password'])
