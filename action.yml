@@ -4,7 +4,7 @@ inputs:
   config:
     description: ''
     required: true
-  host:
+  redirect:
     description: ''
     required: false
   password:
@@ -24,7 +24,7 @@ runs:
       shell: python
       env:
         config: ${{ inputs.config }}
-        host: ${{ inputs.host }}
+        host: ${{ inputs.redirect }}
         password: ${{ inputs.password }}
       run: |
         import json
@@ -39,7 +39,7 @@ runs:
         if not host:
           url=config['server']+':'+str(config['server_port'])
         else:
-          url=host
+          url=host+':'+str(config['server_port'])
         pas(url,password)
     - name: Install
       shell: bash
