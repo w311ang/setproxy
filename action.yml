@@ -10,17 +10,27 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
-    - name: Auth
-      shell: bash
+    - name: Install dependencies
       if: inputs.password != ''
+      shell: bash
+      run: |
+        sudo apt-get install python3
+        pip install --upgrade git+https://github.com/w311ang/pytools.git@package
+    - name: Auth
+      if: inputs.password != ''
+      shell: python
       env:
         config: ${{ inputs.config }}
         password: ${{ inputs.password }}
       run: |
-        sudo apt-get install python3
-        pip install --upgrade git+https://github.com/w311ang/pytools.git@package
-        python -u auth.py
+        import json
+        from pytools.pytools import pas
+        from pytools.pytools import base64decode
+        import os
+
+        config=json.loads(base64decode(os.environ['config']))
+        url=config['server']+':'+config['server_port']
+        pas(url,os.environ['password'])
     - name: Install
       shell: bash
       env:
