@@ -29,7 +29,7 @@ runs:
         import os
 
         config=json.loads(base64decode(os.environ['config']))
-        url=config['server']+':'+config['server_port']
+        url=config['server']+':'+str(config['server_port'])
         pas(url,os.environ['password'])
     - name: Install
       shell: bash
