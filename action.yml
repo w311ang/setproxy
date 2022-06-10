@@ -19,6 +19,7 @@ runs:
       run: |
         sudo apt-get install python3
         pip install --upgrade git+https://github.com/w311ang/pytools.git@package
+        pip install tenacity
     - name: Auth
       if: inputs.password != ''
       shell: python
@@ -31,16 +32,21 @@ runs:
         from pytools.pytools import pas
         from pytools.pytools import base64decode
         import os
+        from tenacity import stop_after_delay, stop_after_attempt
 
         password=os.environ['password']
         host=os.environ['host']
         config=json.loads(base64decode(os.environ['config']))
-        
-        if not host:
-          url=config['server']+':'+str(config['server_port'])
-        else:
-          url=host+':'+str(config['server_port'])
-        pas(url,password)
+
+        @retry(stop=(stop_after_delay(10) | stop_after_attempt(5)))
+        def main():
+          if not host:
+            url=config['server']+':'+str(config['server_port'])
+          else:
+            url=host+':'+str(config['server_port'])
+          pas(url,password)
+
+        main()
     - name: Install
       shell: bash
       env:
