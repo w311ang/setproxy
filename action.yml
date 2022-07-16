@@ -18,11 +18,11 @@ runs:
       shell: bash
       run: |
         sudo apt-get install python3
-        pip install --upgrade git+https://github.com/w311ang/pytools.git@package
-        pip install tenacity
+        pip3 install --upgrade git+https://github.com/w311ang/pytools.git@package
+        pip3 install tenacity
     - name: Auth
       if: inputs.password != ''
-      shell: python
+      shell: python3 {0}
       env:
         config: ${{ inputs.config }}
         host: ${{ inputs.redirect }}
