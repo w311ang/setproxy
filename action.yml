@@ -32,7 +32,7 @@ runs:
         from pytools.pytools import pas
         from pytools.pytools import base64decode
         import os
-        from tenacity import retry, wait_fixed, stop_after_attempt
+        from tenacity import retry, wait_fixed, stop_after_attempt, stop_after_delay
 
         password=os.environ['password']
         host=os.environ['host']
