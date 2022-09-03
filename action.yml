@@ -77,11 +77,11 @@ runs:
           systemctl status --no-pager shadowsocks-libev-local@client
           for i in {1..2}
           do
-            proxychains curl -I -s --connect-timeout 5 https://example.com || (\
+            proxychains curl -I -s --connect-timeout 5 http://192.168.2.1 || (\
             echo connect error; \
             sleep 3s)
           done
           systemctl status --no-pager shadowsocks-libev-local@client
-          proxychains curl -I -s --connect-timeout 5 https://example.com || (\
+          proxychains curl -I -s --connect-timeout 5 http://192.168.2.1 || (\
           echo connect error; \
           exit 1)
