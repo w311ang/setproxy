@@ -64,6 +64,25 @@ runs:
         sudo sed -i "s/nameserver .*/nameserver 1.1.1.1/" /etc/resolv.conf
         #sudo sed -i "s/nameserver .*/$defaultdns/" /etc/resolv.conf
 
+    - name: HTTP Support
+      shell: bash
+      working-directory: /tmp
+      run: |
+        wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
+        gunzip gost-linux-amd64-2.11.4.gz; chmod +x gost-linux-amd64-2.11.4; mv gost-linux-amd64-2.11.4 /usr/local/bin/gost
+        sudo sh -c 'echo -n "\
+        [Unit]
+        Description=GO Simple Tunnel
+        After=network.target
+        [Service]
+        ExecStart=gost -L=http://:1081 -F=socks5://127.0.0.1:1080
+        Rnestart=on-abort
+        [Install]
+        WantedBy=multi-user.target
+        ">/etc/systemd/system/gost.service'
+        sudo systemctl daemon-reload
+        sudo systemctl start gost
+
     - name: Test
       uses: nick-invision/retry@v2
       with:
