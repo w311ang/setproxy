@@ -68,7 +68,7 @@ runs:
       shell: bash
       working-directory: /tmp
       run: |
-        wget https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz 1>/dev/null
+        wget -nv https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
         gunzip gost-linux-amd64-2.11.4.gz; chmod +x gost-linux-amd64-2.11.4; mv gost-linux-amd64-2.11.4 /usr/local/bin/gost
         sudo sh -c 'echo -n "\
         [Unit]
