@@ -83,6 +83,7 @@ runs:
           systemctl status --no-pager shadowsocks-libev-local@client
           proxychains curl -I -s --connect-timeout 5 http://192.168.2.1 || (\
           echo connect error; \
+          echo '::error title=Setproxy::connect error'; \
           exit 1)
           proxychains curl -I -s --connect-timeout 5 https://www.google.com || echo connect google error
     - name: HTTP Support
