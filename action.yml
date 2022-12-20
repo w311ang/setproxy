@@ -38,7 +38,7 @@ runs:
         host=os.environ['host']
         config=json.loads(base64decode(os.environ['config']))
 
-        @retry(wait=wait_fixed(2),stop=(stop_after_delay(60) | stop_after_attempt(5)))
+        @retry(wait=wait_fixed(60),stop=(stop_after_delay(60) | stop_after_attempt(5)))
         def main():
           if not host:
             url=config['server']+':'+str(config['server_port'])
