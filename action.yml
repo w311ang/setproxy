@@ -93,7 +93,7 @@ runs:
       shell: bash
       working-directory: /tmp
       run: |
-        wget -nv $(test '${{ inputs.token }}' != '' && echo '-u "username:${{ inputs.token }}"') https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
+        wget -nv $(test '${{ inputs.token }}' != '' && echo '--user=username --password="${{ inputs.token }}"') https://github.com/ginuerzh/gost/releases/download/v2.11.4/gost-linux-amd64-2.11.4.gz
         gunzip gost-linux-amd64-2.11.4.gz; chmod +x gost-linux-amd64-2.11.4; mv gost-linux-amd64-2.11.4 /usr/local/bin/gost
         sudo sh -c 'echo -n "\
         [Unit]
