@@ -25,31 +25,42 @@ runs:
         pip3 install tenacity
     - name: Auth
       if: inputs.password != ''
-      shell: python3 {0}
       env:
         config: ${{ inputs.config }}
         host: ${{ inputs.redirect }}
         password: ${{ inputs.password }}
-      run: |
-        import json
-        from pytools.pytools import pas
-        from pytools.pytools import base64decode
-        import os
-        from tenacity import retry, wait_fixed, stop_after_attempt, stop_after_delay
-
-        password=os.environ['password']
-        host=os.environ['host']
-        config=json.loads(base64decode(os.environ['config']))
-
-        @retry(wait=wait_fixed(60),stop=(stop_after_delay(60) | stop_after_attempt(5)))
-        def main():
-          if not host:
-            url=config['server']+':'+str(config['server_port'])
-          else:
-            url=host+':'+str(config['server_port'])
-          pas(url,password)
-
-        main()
+      uses: nick-fields/retry@v2
+      with:
+        timeout_minutes: 10
+        max_attempts: 3
+        retry_wait_seconds: 60
+        shell: python3
+        on_retry_command: |
+          import os
+          os.system('''
+          sudo systemctl restart shadowsocks-libev-local@client
+          sleep 5s
+          ''')
+        command: |
+          import json
+          from pytools.pytools import pas
+          from pytools.pytools import base64decode
+          import os
+          from tenacity import retry, wait_fixed, stop_after_attempt, stop_after_delay
+  
+          password=os.environ['password']
+          host=os.environ['host']
+          config=json.loads(base64decode(os.environ['config']))
+  
+          @retry(wait=wait_fixed(60),stop=(stop_after_delay(60) | stop_after_attempt(5)))
+          def main():
+            if not host:
+              url=config['server']+':'+str(config['server_port'])
+            else:
+              url=host+':'+str(config['server_port'])
+            pas(url,password)
+  
+          main()
     - name: Install
       shell: bash
       env:
