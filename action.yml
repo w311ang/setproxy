@@ -34,7 +34,7 @@ runs:
         timeout_minutes: 10
         max_attempts: 3
         retry_wait_seconds: 60
-        shell: python3
+        shell: python3 {0}
         on_retry_command: |
           import os
           os.system('''
