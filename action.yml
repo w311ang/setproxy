@@ -20,7 +20,7 @@ runs:
       if: inputs.password != ''
       shell: bash
       run: |
-        sudo apt-get install python3 python3-setuptools
+        sudo apt-get install python3 python3-setuptools python-is-python3
         pip3 install --upgrade git+https://github.com/w311ang/pytools.git@package
         pip3 install tenacity
     - name: Auth
@@ -34,7 +34,7 @@ runs:
         timeout_minutes: 10
         max_attempts: 3
         retry_wait_seconds: 60
-        shell: python3 {0}
+        shell: python
         on_retry_command: |
           import os
           os.system('''
