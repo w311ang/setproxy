@@ -34,13 +34,10 @@ runs:
         timeout_minutes: 10
         max_attempts: 3
         retry_wait_seconds: 60
-        shell: python
         on_retry_command: |
-          import os
-          os.system('''
           sudo systemctl restart shadowsocks-libev-local@client
           sleep 5s
-          ''')
+        shell: python
         command: |
           import json
           from pytools.pytools import pas
